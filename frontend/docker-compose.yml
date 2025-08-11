@@ -1,0 +1,28 @@
+
+version: "3.9"
+services:
+  frontend:
+    build: .
+    container_name: nextjs-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://root:root@db:5432/inventory
+
+  db:
+    image: postgres:15-alpine3.22
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=inventory
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
